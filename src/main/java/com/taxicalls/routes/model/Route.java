@@ -44,10 +44,13 @@ public class Route implements Serializable {
     public Address getAddressTo() {
         return addressTo;
     }
+    
+    public boolean includes(Coordinate coordinate) {
+        return getAddressFrom().getCoordinate().getLatitude() < coordinate.getLatitude();
+    }
 
-    public boolean includes(Address address) {
-        return getAddressFrom().getCoordinate().getLatitude() < address.getCoordinate().getLatitude();
-//        return getAddressFrom().isLesserThan(address) && getAddressTo().isGreaterThan(address);
+    public double getDistance(Coordinate coordinate) {
+        return getAddressFrom().getCoordinate().getEuclidienDistance(coordinate);
     }
 
 }

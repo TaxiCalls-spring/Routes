@@ -13,10 +13,15 @@ import java.io.Serializable;
  */
 public class Coordinate implements Serializable, Comparable<Coordinate> {
 
-    private final Long longitude;
-    private final Long latitude;
+    private final long longitude;
+    private final long latitude;
 
-    public Coordinate(Long longitude, Long latitude) {
+    protected Coordinate() {
+        this.latitude = 0;
+        this.longitude = 0;
+    }
+
+    public Coordinate(long longitude, long latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
@@ -27,6 +32,13 @@ public class Coordinate implements Serializable, Comparable<Coordinate> {
 
     public Long getLongitude() {
         return longitude;
+    }
+
+    public double getEuclidienDistance(Coordinate coordinate) {
+        return Math.sqrt(
+                Math.pow(this.getLatitude() - coordinate.getLatitude(), 2)
+                + Math.pow(this.getLongitude() - coordinate.getLongitude(), 2)
+        );
     }
 
     @Override

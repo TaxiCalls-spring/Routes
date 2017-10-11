@@ -30,7 +30,7 @@ public class Address implements Serializable, Comparable<Address> {
     public boolean isLesserThan(Address address) {
         return compareTo(address) < 0;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Address)) {

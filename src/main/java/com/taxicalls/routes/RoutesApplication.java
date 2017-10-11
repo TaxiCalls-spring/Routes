@@ -29,7 +29,6 @@ public class RoutesApplication {
      * @param args Program arguments - ignored.
      */
     public static void main(String[] args) {
-        System.setProperty("spring.config.name", "routes");
         SpringApplication.run(RoutesApplication.class, args);
     }
 }

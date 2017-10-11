@@ -1,5 +1,6 @@
 package com.taxicalls.routes.resource;
 
+import com.taxicalls.routes.model.Coordinate;
 import com.taxicalls.routes.model.Route;
 import com.taxicalls.routes.resource.exceptions.RouteNotFoundException;
 import java.util.logging.Level;
@@ -13,7 +14,6 @@ import com.taxicalls.routes.model.RoutesRepository;
 import com.taxicalls.routes.service.RoutesService;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ws.rs.core.Response;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @RestController
@@ -21,7 +21,7 @@ public class RoutesResource {
 
     protected Logger logger = Logger.getLogger(RoutesResource.class.getName());
     protected RoutesRepository routesRepository;
-    
+
     @Autowired
     protected RoutesService routesService;
 
@@ -33,7 +33,7 @@ public class RoutesResource {
 
     @RequestMapping("/routes")
     public List<Route> getRoutes() {
-       return routesService.getRoutes();
+        return routesService.getRoutes();
     }
 
     @RequestMapping("/routes/{id}")
@@ -47,17 +47,17 @@ public class RoutesResource {
             return route;
         }
     }
-
+    
     @RequestMapping(method = RequestMethod.POST, value = "/available")
-    public Response getAvailableRoutes(Route request) {
+    public List<Route> getAvailableRoutes(Coordinate coordinate) {
         Iterable<Route> routes = routesRepository.findAll();
         List<Route> availableRoutes = new ArrayList<>();
         for (Route route : routes) {
-            if (route.includes(request.getAddressFrom())) {
+            if (route.getDistance(coordinate) < 5) {
                 availableRoutes.add(route);
             }
         }
-        return Response.ok(availableRoutes).build();
+        return availableRoutes;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/routes")
