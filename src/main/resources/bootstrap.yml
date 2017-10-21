@@ -1,12 +1,12 @@
 # Spring properties
 spring:
   application:
-     name: routes  # Service registers under this name
+     name: trip  # Service registers under this name
   freemarker:
     enabled: false           # Ignore Eureka dashboard FreeMarker templates
   thymeleaf:
     cache: false             # Allow Thymeleaf templates to be reloaded at runtime
-    prefix: classpath:/routes/templates/    # Trailing / mandatory
+    prefix: classpath:/trip/templates/    # Trailing / mandatory
                              # Template location for this application only
 #  cloud:
 #    config:

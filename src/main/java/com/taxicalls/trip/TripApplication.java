@@ -1,27 +1,18 @@
-package com.taxicalls.routes;
+package com.taxicalls.trip;
 
-import java.util.logging.Logger;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Import;
 
-import com.taxicalls.routes.model.RoutesConfiguration;
+import com.taxicalls.trip.configuration.TripsConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import com.taxicalls.routes.model.RoutesRepository;
 
 @EnableAutoConfiguration
 @EnableDiscoveryClient
 @SpringBootApplication
-@Import(RoutesConfiguration.class)
-public class RoutesApplication {
-
-    @Autowired
-    protected RoutesRepository routesRepository;
-
-    protected Logger logger = Logger.getLogger(RoutesApplication.class.getName());
+@Import(TripsConfiguration.class)
+public class TripApplication {
 
     /**
      * Run the application using Spring Boot and an embedded servlet engine.
@@ -29,6 +20,6 @@ public class RoutesApplication {
      * @param args Program arguments - ignored.
      */
     public static void main(String[] args) {
-        SpringApplication.run(RoutesApplication.class, args);
+        SpringApplication.run(TripApplication.class, args);
     }
 }

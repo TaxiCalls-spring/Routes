@@ -1,6 +1,4 @@
-package com.taxicalls.routes.model;
-
-import java.util.logging.Logger;
+package com.taxicalls.trip.configuration;
 
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,15 +8,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @ComponentScan
-@EntityScan("com.taxicalls.routes.model")
-@EnableJpaRepositories("com.taxicalls.routes.model")
+@EntityScan("com.taxicalls.trip.model")
+@EnableJpaRepositories("com.taxicalls.trip.repository")
 @PropertySource("classpath:db-config.properties")
-public class RoutesConfiguration {
-
-    protected Logger logger;
-
-    public RoutesConfiguration() {
-        logger = Logger.getLogger(getClass().getName());
-    }
+public class TripsConfiguration {
 
 }

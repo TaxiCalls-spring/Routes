@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.taxicalls.routes.model;
+package com.taxicalls.trip.model;
 
 import java.io.Serializable;
 
@@ -13,15 +13,15 @@ import java.io.Serializable;
  */
 public class Coordinate implements Serializable, Comparable<Coordinate> {
 
-    private final long longitude;
-    private final long latitude;
+    private final Long longitude;
+    private final Long latitude;
 
-    protected Coordinate() {
-        this.latitude = 0;
-        this.longitude = 0;
+    public Coordinate() {
+        this.longitude = null;
+        this.latitude = null;
     }
 
-    public Coordinate(long longitude, long latitude) {
+    public Coordinate(Long longitude, Long latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }

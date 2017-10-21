@@ -1,4 +1,4 @@
-package com.taxicalls.routes.resource;
+package com.taxicalls.trip.resources;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
