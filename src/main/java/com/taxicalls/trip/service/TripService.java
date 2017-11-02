@@ -40,7 +40,7 @@ public class TripService {
         return trips;
     }
 
-    public Trip getTrip(Integer id) {
+    public Trip getTrip(Long id) {
         return tripRepository.findOne(id);
     }
 

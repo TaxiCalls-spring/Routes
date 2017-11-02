@@ -8,7 +8,7 @@ public class PassengerNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public PassengerNotFoundException(Integer id) {
+    public PassengerNotFoundException(Long id) {
         super("No such entity: " + id);
     }
 }

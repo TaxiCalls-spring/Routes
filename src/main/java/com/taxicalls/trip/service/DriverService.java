@@ -2,7 +2,9 @@ package com.taxicalls.trip.service;
 
 import com.taxicalls.trip.model.Coordinate;
 import com.taxicalls.trip.model.Driver;
+import com.taxicalls.trip.model.Trip;
 import com.taxicalls.trip.repository.DriverRepository;
+import com.taxicalls.trip.repository.TripRepository;
 import com.taxicalls.trip.resources.AvailableDriversRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +20,12 @@ import java.util.logging.Logger;
 @Service
 public class DriverService {
 
-    protected static final Logger LOGGER = Logger.getLogger(DriverService.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DriverService.class.getName());
 
-    protected DriverRepository driverRepository;
+    private final DriverRepository driverRepository;
+    
+    @Autowired
+    private TripRepository tripRepository;
 
     @Autowired
     public DriverService(DriverRepository driverRepository) {
@@ -42,21 +47,26 @@ public class DriverService {
         return drivers;
     }
 
-    public Driver getDriver(Integer id) {
+    public Driver getDriver(Long id) {
         return driverRepository.findOne(id);
     }
 
     public List<Driver> getAvailableDrivers(AvailableDriversRequest availableDriversRequest) {
         Coordinate coordinate = availableDriversRequest.getCoordinate();
         int ratio = availableDriversRequest.getRatio();
-
         Iterable<Driver> drivers = driverRepository.findAll();
+        Iterable<Trip> trips = tripRepository.findAll();
+        List<Driver> busyDrivers = new ArrayList<>();
+        trips.forEach((trip) -> {
+            busyDrivers.add(trip.getDriver());
+        });
         List<Driver> availableDrivers = new ArrayList<>();
         for (Driver driver : drivers) {
             if (driver.getAtualCoordinate().getEuclidienDistance(coordinate) <= ratio) {
                 availableDrivers.add(driver);
             }
         }
+        availableDrivers.removeAll(busyDrivers);
         return availableDrivers;
     }
 

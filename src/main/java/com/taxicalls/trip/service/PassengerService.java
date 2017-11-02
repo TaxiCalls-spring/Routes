@@ -40,7 +40,7 @@ public class PassengerService {
         return passengers;
     }
 
-    public Passenger getPassenger(Integer id) {
+    public Passenger getPassenger(Long id) {
         return passengerRepository.findOne(id);
     }
 

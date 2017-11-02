@@ -8,7 +8,7 @@ public class TripNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public TripNotFoundException(Integer id) {
+    public TripNotFoundException(Long id) {
         super("No such entity: " + id);
     }
 }
