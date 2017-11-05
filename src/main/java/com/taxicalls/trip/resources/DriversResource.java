@@ -39,7 +39,7 @@ public class DriversResource {
             return Response.notFound();
         }
         driverService.createDriver(driver);
-        return Response.successful();
+        return Response.successful(driver);
     }
 
     @RequestMapping("/available")

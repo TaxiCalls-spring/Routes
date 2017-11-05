@@ -29,6 +29,12 @@ public class TripsResource {
         return Response.successful(createTrip);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/update")
+    public Response updateTrip(@RequestBody Trip trip) {
+        tripService.updateTrip(trip);
+        return Response.successful();
+    }
+
     @RequestMapping
     public Response getTrips() {
         List<Trip> trips = tripService.getTrips();

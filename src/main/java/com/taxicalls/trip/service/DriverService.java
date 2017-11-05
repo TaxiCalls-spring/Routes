@@ -2,6 +2,7 @@ package com.taxicalls.trip.service;
 
 import com.taxicalls.trip.model.Coordinate;
 import com.taxicalls.trip.model.Driver;
+import com.taxicalls.trip.model.Status;
 import com.taxicalls.trip.model.Trip;
 import com.taxicalls.trip.repository.DriverRepository;
 import com.taxicalls.trip.repository.TripRepository;
@@ -78,6 +79,9 @@ public class DriverService {
                 continue;
             }
             if (driver.getAtualCoordinate().getLongitude() == null) {
+                continue;
+            }
+            if (driver.getStatus().equals(Status.NOT_WORKING)) {
                 continue;
             }
             if (driver.getAtualCoordinate().getEuclidienDistance(coordinate) <= ratio) {

@@ -1,5 +1,6 @@
 package com.taxicalls.trip.service;
 
+import com.taxicalls.trip.model.Progress;
 import com.taxicalls.trip.model.Trip;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,4 +52,14 @@ public class TripService {
         return tripRepository.findOne(id);
     }
 
+    public boolean updateTrip(Trip trip) {
+        Iterable<Trip> trips = tripRepository.findAll();
+        for (Trip stored : trips) {
+            if (stored.getDriver().equals(trip.getDriver())) {
+                stored.setProgress(Progress.CONCLUDED);
+                tripRepository.save(stored);
+            }
+        }
+        return true;
+    }
 }
