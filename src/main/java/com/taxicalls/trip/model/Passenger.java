@@ -9,12 +9,14 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author romulo
  */
 @Entity
+@NamedQuery(name = "Passenger.findAll", query = "SELECT p FROM Passenger p")
 public class Passenger implements Serializable {
 
     @Id
@@ -26,6 +28,12 @@ public class Passenger implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setEmail(String email) {
+    }
+
+    public void setPassword(String password) {
     }
 
     @Override

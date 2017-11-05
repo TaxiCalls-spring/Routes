@@ -4,6 +4,7 @@ import com.taxicalls.protocol.Response;
 import com.taxicalls.trip.model.Coordinate;
 import com.taxicalls.trip.model.Driver;
 import com.taxicalls.trip.service.DriverService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,16 @@ public class DriversResource {
         return Response.successful(driverService.getDrivers());
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/update")
+    public Response updateDriver(@RequestBody Driver driver) {
+        Driver stored = driverService.getDriver(driver.getId());
+        if (stored == null) {
+            return Response.notFound();
+        }
+        driverService.createDriver(driver);
+        return Response.successful();
+    }
+
     @RequestMapping("/available")
     public Response getAvailableDriversInfo() {
         AvailableDriversRequest availableDriversRequest = new AvailableDriversRequest();
@@ -41,7 +52,11 @@ public class DriversResource {
 
     @RequestMapping(method = RequestMethod.POST, value = "/available")
     public Response getAvailableDrivers(@RequestBody AvailableDriversRequest availableDriversRequest) {
-        return Response.successful(driverService.getAvailableDrivers(availableDriversRequest));
+        List<Driver> availableDrivers = driverService.getAvailableDrivers(availableDriversRequest);
+        if (availableDrivers == null) {
+            Response.error("latitude incomplete");
+        }
+        return Response.successful(availableDrivers);
     }
 
 }

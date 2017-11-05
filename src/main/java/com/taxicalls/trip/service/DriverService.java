@@ -23,7 +23,7 @@ public class DriverService {
     private static final Logger LOGGER = Logger.getLogger(DriverService.class.getName());
 
     private final DriverRepository driverRepository;
-    
+
     @Autowired
     private TripRepository tripRepository;
 
@@ -54,6 +54,15 @@ public class DriverService {
     public List<Driver> getAvailableDrivers(AvailableDriversRequest availableDriversRequest) {
         Coordinate coordinate = availableDriversRequest.getCoordinate();
         int ratio = availableDriversRequest.getRatio();
+        if (coordinate == null) {
+            return null;
+        }
+        if (coordinate.getLatitude() == null) {
+            return null;
+        }
+        if (coordinate.getLongitude() == null) {
+            return null;
+        }
         Iterable<Driver> drivers = driverRepository.findAll();
         Iterable<Trip> trips = tripRepository.findAll();
         List<Driver> busyDrivers = new ArrayList<>();
@@ -62,6 +71,15 @@ public class DriverService {
         });
         List<Driver> availableDrivers = new ArrayList<>();
         for (Driver driver : drivers) {
+            if (driver.getAtualCoordinate() == null) {
+                continue;
+            }
+            if (driver.getAtualCoordinate().getLatitude() == null) {
+                continue;
+            }
+            if (driver.getAtualCoordinate().getLongitude() == null) {
+                continue;
+            }
             if (driver.getAtualCoordinate().getEuclidienDistance(coordinate) <= ratio) {
                 availableDrivers.add(driver);
             }
