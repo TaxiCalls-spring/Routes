@@ -59,4 +59,12 @@ public class DriversResource {
         return Response.successful(availableDrivers);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/choose")
+    public Response chooseDriver(@RequestBody ChooseDriverRequest chooseDriverRequest) {
+        boolean chooseDriver = driverService.chooseDriver(chooseDriverRequest);
+        if (chooseDriver) {
+            return Response.successful();
+        }
+        return Response.error("driver or trip not found");
+    }
 }

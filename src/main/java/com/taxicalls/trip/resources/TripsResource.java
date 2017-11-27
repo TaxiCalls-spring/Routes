@@ -1,6 +1,7 @@
 package com.taxicalls.trip.resources;
 
 import com.taxicalls.protocol.Response;
+import com.taxicalls.trip.model.Coordinate;
 import com.taxicalls.trip.model.Trip;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,44 @@ public class TripsResource {
 
     @RequestMapping(method = RequestMethod.POST, value = "/update")
     public Response updateTrip(@RequestBody Trip trip) {
+        if (trip == null) {
+            return Response.error("trip incomplete");
+        }
+        if (trip.getDriver() == null) {
+            return Response.error("driver incomplete");
+        }
         tripService.updateTrip(trip);
         return Response.successful();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/request")
+    public Response requestTrip(@RequestBody Trip trip) {
+        if (trip == null) {
+            return Response.error("trip incomplete");
+        }
+        if (trip.getAuthor() == null) {
+            return Response.error("author incomplete");
+        }
+        if (trip.getAddressFrom() == null) {
+            return Response.error("addressFrom incomplete");
+        }
+        if (trip.getAddressTo() == null) {
+            return Response.error("addressTo incomplete");
+        }
+        if (trip.getAddressTo().getCoordinate() == null) {
+            return Response.error("coordinateTo incomplete");
+        }
+        Coordinate coordinate = trip.getAddressFrom().getCoordinate();
+        if (coordinate == null) {
+            return Response.error("coordinate incomplete");
+        }
+        if (coordinate.getLatitude() == null) {
+            return Response.error("latitude incomplete");
+        }
+        if (coordinate.getLongitude() == null) {
+            return Response.error("longitude incomplete");
+        }
+        return Response.successful(tripService.requestTrip(trip));
     }
 
     @RequestMapping

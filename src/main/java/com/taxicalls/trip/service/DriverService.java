@@ -7,12 +7,16 @@ import com.taxicalls.trip.model.Trip;
 import com.taxicalls.trip.repository.DriverRepository;
 import com.taxicalls.trip.repository.TripRepository;
 import com.taxicalls.trip.resources.AvailableDriversRequest;
+import com.taxicalls.trip.resources.ChooseDriverRequest;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -27,6 +31,9 @@ public class DriverService {
 
     @Autowired
     private TripRepository tripRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     public DriverService(DriverRepository driverRepository) {
@@ -90,6 +97,22 @@ public class DriverService {
         }
         availableDrivers.removeAll(busyDrivers);
         return availableDrivers;
+    }
+
+    @Transactional
+    public boolean chooseDriver(ChooseDriverRequest chooseDriverRequest) {
+        Iterable<Trip> findAll = tripRepository.findAll();
+        for (Trip trip : findAll) {
+            if (trip.getAuthor() == null) {
+                continue;
+            }
+            if (trip.getAuthor().equals(chooseDriverRequest.getPassenger())) {
+                trip.setDriver(chooseDriverRequest.getDriver());
+                entityManager.merge(trip);
+                return true;
+            }
+        }
+        return false;
     }
 
 }
